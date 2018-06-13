@@ -59,6 +59,8 @@
         address: '上海市普陀区金沙江路 1518 弄'
       };
 
+      this.getApiData();
+
       return {
         tableData: Array(3).fill(item),
         movieData: [],
@@ -73,7 +75,6 @@
         // console.log(key, keyPath);
         if (key == 1) {
           this.isMove = true;
-          this.loading2 = true;
           this.getApiData()
         } else if (key == 2) {
           this.isMove = false;
@@ -85,6 +86,7 @@
 
         var url = "/zkteam/api/json/movie/";
         var that = this;
+        that.loading2 = true;
 
 
         this.$axios.get(url).then(function (result) {
