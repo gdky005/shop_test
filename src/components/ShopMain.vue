@@ -49,7 +49,7 @@
       };
 
       return {
-        tableData: Array(100).fill(item),
+        tableData: Array(20).fill(item),
         activeIndex: '1',
         activeIndex2: '1'
       };
@@ -59,8 +59,10 @@
         // console.log(key, keyPath);
       },
       getApiData: function () {
-        var url = "http://zkteam.cc/Shop/show";
+        // var url = "http://zkteam.cc/Shop/show";
         // var url = "http://zkteam.cc/api/json/movie/";
+
+        var url = "/zkteam/api/json/movie/";
         var that = this;
         //
         // this.$axios.jsonp(url, {}, {headers: {}, emulateJSON: true})
