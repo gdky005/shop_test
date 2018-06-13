@@ -16,16 +16,16 @@
         background-color="#409EFF"
         text-color="#fff"
         active-text-color="#E6A23C">
-        <el-menu-item index="1" @click.native="getApiData">处理中心</el-menu-item>
-        <el-menu-item index="2">个人中心</el-menu-item>
+        <el-menu-item index="1" @click.native="getApiData">电影排行榜</el-menu-item>
+        <el-menu-item index="2">未知数据</el-menu-item>
       </el-menu>
 
-      <el-table :data="tableData">
-        <el-table-column prop="date" label="日期" width="140">
+      <el-table :data="movieData">
+        <el-table-column prop="id" label="id" width="100" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="120">
+        <el-table-column prop="title" label="标题" width="500" align="center">
         </el-table-column>
-        <el-table-column prop="address" label="地址">
+        <el-table-column prop="quote" label="评价" align="center">
         </el-table-column>
       </el-table>
 
@@ -49,7 +49,8 @@
       };
 
       return {
-        tableData: Array(20).fill(item),
+        tableData: Array(3).fill(item),
+        movieData: [],
         activeIndex: '1',
         activeIndex2: '1'
       };
@@ -64,18 +65,11 @@
 
         var url = "/zkteam/api/json/movie/";
         var that = this;
-        //
-        // this.$axios.jsonp(url, {}, {headers: {}, emulateJSON: true})
-        //   .then((result) => {
-        //       console.log(result.data.message[0]);
-        //       that.name = result.data.message[0].name;
-        //   }
-        // );
 
 
         this.$axios.get(url).then(function (result) {
           console.log(result);
-          // that.name = result.data.message[0].name;
+          that.movieData = result.data.result
         });
       }
     }
