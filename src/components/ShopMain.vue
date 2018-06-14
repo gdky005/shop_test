@@ -91,7 +91,7 @@
             </el-form-item>
           </el-form>
 
-          <el-button type="primary" @click="submitButton(shopInfo)"> 提交按钮</el-button>
+          <el-button type="primary" @click="confirmInfo(shopInfo)"> 提交按钮</el-button>
         </div>
       </div>
     </el-main>
@@ -209,6 +209,22 @@
       },
       addDataError() {
         this.$message.error('添加数据失败！');
+      },
+
+
+      confirmInfo(shopInfo) {
+        this.$confirm('是否确定修改数据?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.submitButton(shopInfo);
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          });
+        });
       },
 
 
