@@ -8,94 +8,99 @@
     </el-header>
     <el-main>
 
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        @select="handleSelect"
-        background-color="#409EFF"
-        text-color="#fff"
-        active-text-color="#E6A23C">
-        <el-menu-item index="1">Shop</el-menu-item>
-        <el-menu-item index="2">增加数据</el-menu-item>
-      </el-menu>
+      <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="Shop" :name=GLOBAL.tabs[0]>
 
-      <div id="newRow" v-show="true">
-        <el-table
-          v-show="isMove"
-          v-loading="loading2"
-          element-loading-text="拼命加载中"
-          element-loading-spinner="el-icon-loading"
-          element-loading-background="rgba(0, 0, 0, 0.8)"
-          :data="shopData"
-          style="width: 100%">
-          <el-table-column
-            label="id"
-            width="180">
-            <template slot-scope="scope">
-              <i class="el-icon-time"></i>
-              <span style="margin-left: 10px">{{ scope.row.id }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="名称"
-            width="180">
-            <template slot-scope="scope">
-              <el-popover trigger="hover" placement="top">
-                <p>Id: {{ scope.row.id }}</p>
-                <p>PID: {{ scope.row.pid }}</p>
-                <p>名称: {{ scope.row.name }}</p>
-                <p>价格: {{ scope.row.price }}</p>
-                <p>描述: {{ scope.row.des }}</p>
-                <div slot="reference" class="name-wrapper">
-                  <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                </div>
-              </el-popover>
-            </template>
-          </el-table-column>
-          <el-table-column label="处理">
-            <template slot-scope="scope">
-              <el-button
-                size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑
-              </el-button>
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+          <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            background-color="#409EFF"
+            text-color="#fff"
+            active-text-color="#ffb49a">
+            <el-menu-item index="1">刷新</el-menu-item>
+          </el-menu>
 
-        <div v-show="!isMove" style="background: white; padding: 10px 50px 10px 10px;"
-             v-loading="loading2"
-             element-loading-text="拼命加载中"
-             element-loading-spinner="el-icon-loading"
-             element-loading-background="rgba(0, 0, 0, 0.8)">
-          <div style="margin: 20px;"></div>
+          <el-table
+            v-loading="loading2"
+            element-loading-text="拼命加载中"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
+            :data="shopData"
+            style="width: 100%">
+            <el-table-column
+              label="id"
+              width="180">
+              <template slot-scope="scope">
+                <i class="el-icon-time"></i>
+                <span style="margin-left: 10px">{{ scope.row.id }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="名称"
+              width="180">
+              <template slot-scope="scope">
+                <el-popover trigger="hover" placement="top">
+                  <p>Id: {{ scope.row.id }}</p>
+                  <p>PID: {{ scope.row.pid }}</p>
+                  <p>名称: {{ scope.row.name }}</p>
+                  <p>价格: {{ scope.row.price }}</p>
+                  <p>描述: {{ scope.row.des }}</p>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column label="处理">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  @click="handleEdit(scope.$index, scope.row)">编辑
+                </el-button>
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleDelete(scope.$index, scope.row)">删除
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
 
-          <el-form :model="shopInfo" status-icon :rules="rules" ref="shopInfo" label-width="120px">
-            <el-form-item label="默认 Id:" prop="id">
-              <el-input v-model.number="shopInfo.id" ></el-input>
-            </el-form-item>
-            <el-form-item label="商品名称 Pid:" prop="pid">
-              <el-input v-model.number="shopInfo.pid" ></el-input>
-            </el-form-item>
-            <el-form-item label="商品名称:">
-              <el-input v-model="shopInfo.name" ></el-input>
-            </el-form-item>
-            <el-form-item label="商品价格:" prop="price">
-              <el-input v-model.number="shopInfo.price"></el-input>
-            </el-form-item>
-            <el-form-item label="商品描述:">
-              <el-input v-model="shopInfo.des"></el-input>
-            </el-form-item>
-          </el-form>
 
-          <el-button type="primary" @click="confirmInfo(shopInfo)"> 提交按钮</el-button>
-        </div>
-      </div>
+        <el-tab-pane label="增加数据" :name=GLOBAL.tabs[1]>
+          <div style="background: white; padding: 10px 50px 10px 10px;"
+               v-loading="loading2"
+               element-loading-text="拼命加载中"
+               element-loading-spinner="el-icon-loading"
+               element-loading-background="rgba(0, 0, 0, 0.8)">
+            <div style="margin: 20px;"></div>
+
+            <el-form :model="shopInfo" status-icon :rules="rules" ref="shopInfo" label-width="120px">
+              <el-form-item label="默认 Id:" prop="id">
+                <el-input v-model.number="shopInfo.id"></el-input>
+              </el-form-item>
+              <el-form-item label="商品名称 Pid:" prop="pid">
+                <el-input v-model.number="shopInfo.pid"></el-input>
+              </el-form-item>
+              <el-form-item label="商品名称:">
+                <el-input v-model="shopInfo.name"></el-input>
+              </el-form-item>
+              <el-form-item label="商品价格:" prop="price">
+                <el-input v-model.number="shopInfo.price"></el-input>
+              </el-form-item>
+              <el-form-item label="商品描述:">
+                <el-input v-model="shopInfo.des"></el-input>
+              </el-form-item>
+            </el-form>
+
+            <el-button type="primary" @click="confirmInfo(shopInfo)"> 提交按钮</el-button>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+
     </el-main>
   </el-container>
 
@@ -126,18 +131,16 @@
       };
 
 
+
       return {
-        rules: {
-          id: [
-            { validator: checkNumber}
-          ],
-          pid: [
-            { validator: checkNumber}
-          ],
-          price: [
-            { validator: checkNumber, trigger: 'blur'}
-          ]
-        },
+        activeName: this.GLOBAL.tabs[0],
+        activeIndex: '1',
+
+        isMove: true,
+        loading2: false,
+
+        shopData: [],
+        movieData: [],
 
         shopInfo: {
           id: '1',
@@ -146,11 +149,18 @@
           price: '101',
           des: '描述'
         },
-        shopData: [],
-        movieData: [],
-        activeIndex: '1',
-        loading2: false,
-        isMove: true,
+
+        rules: {
+          id: [
+            {validator: checkNumber}
+          ],
+          pid: [
+            {validator: checkNumber}
+          ],
+          price: [
+            {validator: checkNumber, trigger: 'blur'}
+          ]
+        },
       };
     },
     methods: {
@@ -167,7 +177,6 @@
         var url = "/zkteam/Shop/jsonShow?pageCount=20";
         var that = this;
         that.loading2 = true;
-
 
         this.$axios.get(url).then(function (result) {
           console.log(result);
@@ -296,7 +305,7 @@
 
       handleEdit(index, row) {
         console.log(index, row);
-
+        this.activeName = this.GLOBAL.tabs[1];
         this.queryButton(row);
 
       },
