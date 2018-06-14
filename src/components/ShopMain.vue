@@ -96,8 +96,52 @@
               </el-form-item>
             </el-form>
 
-            <el-button type="primary" @click="confirmInfo(shopInfo)"> 提交按钮</el-button>
+            <el-button type="primary" @click="confirmInfo(shopInfo)"> 提交</el-button>
           </div>
+        </el-tab-pane>
+
+        <el-tab-pane label="搜索" :name=GLOBAL.tabs[2]>
+
+          <div>
+
+            <el-row :gutter="20">
+              <el-col :span="10" :offset="6">
+                <el-input
+                  placeholder="请输入 pid 搜索"
+                  prefix-icon="el-icon-search"
+                  v-model="input21">
+                </el-input>
+              </el-col>
+              <el-col :span="3">
+                <el-button type="primary" icon="el-icon-search">搜索</el-button>
+              </el-col>
+            </el-row>
+
+
+
+
+
+
+            <div style="background: white; padding: 10px 50px 10px 10px;"
+                 v-loading="loading2"
+                 element-loading-text="拼命加载中"
+                 element-loading-spinner="el-icon-loading"
+                 element-loading-background="rgba(0, 0, 0, 0.8)">
+              <div style="margin: 20px;"></div>
+              <p>Id: {{ shopInfo.id }}</p>
+              <p>PID: {{ shopInfo.pid }}</p>
+              <p>名称: {{ shopInfo.name }}</p>
+              <p>价格: {{ shopInfo.price }}</p>
+              <p>描述: {{ shopInfo.des }}</p>
+            </div>
+          </div>
+
+
+
+          <!--<div>-->
+            <!---->
+
+
         </el-tab-pane>
       </el-tabs>
 
@@ -133,7 +177,7 @@
 
 
       return {
-        activeName: this.GLOBAL.tabs[0],
+        activeName: this.GLOBAL.tabs[2],
         activeIndex: '1',
 
         isMove: true,
@@ -164,6 +208,17 @@
       };
     },
     methods: {
+
+      handleClick(tab, event) {
+        console.log(tab, event);
+        if (tab.name === this.GLOBAL.tabs[0]) {
+          this.getShopData();
+        }  else if (tab.name === this.GLOBAL.tabs[1]) {
+
+          this.shopInfo = {}
+        }
+
+      },
 
       handleSelect(key, keyPath) {
         if (key == 1) {
@@ -321,5 +376,32 @@
   .fontStyle {
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     font-size: 20px;
+  }
+
+  .el-row {
+    margin-bottom: 20px;
+  &:last-child {
+     margin-bottom: 0;
+   }
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
   }
 </style>
