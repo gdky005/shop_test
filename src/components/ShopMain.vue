@@ -9,7 +9,7 @@
     <el-main>
 
       <el-menu
-        :default-active="activeIndex2"
+        :default-active="activeIndex"
         class="el-menu-demo"
         mode="horizontal"
         @select="handleSelect"
@@ -149,7 +149,6 @@
         shopData: [],
         movieData: [],
         activeIndex: '1',
-        activeIndex2: '1',
         loading2: false,
         isMove: true,
       };
