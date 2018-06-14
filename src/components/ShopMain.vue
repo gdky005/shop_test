@@ -55,7 +55,7 @@
             <template slot-scope="scope">
               <el-button
                 size="mini"
-                @click="handleEdit(scope.$index, scope.row.pid)">编辑
+                @click="handleEdit(scope.$index, scope.row)">编辑
               </el-button>
               <el-button
                 size="mini"
@@ -228,6 +228,29 @@
         });
       },
 
+      queryButton: function (shopInfo) {
+        var url = "/zkteam/Shop/query";
+        var that = this;
+        that.loading2 = false;
+
+        this.$axios.get(url, {
+          params: {
+            pid: shopInfo.pid
+          }
+        }).then(function (result) {
+          console.log(result);
+          // that.loading2 = false;
+          if (result.data.message === "ok") {
+            that.shopInfo = result.data.result;
+            that.isMove = false;
+
+            return true;
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+
       addDataSuccess(msg) {
         this.$message({
           message: msg,
@@ -272,6 +295,9 @@
 
       handleEdit(index, row) {
         console.log(index, row);
+
+        this.queryButton(row);
+
       },
       handleDelete(index, row) {
         console.log(index, row);
