@@ -42,9 +42,11 @@
             width="180">
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="top">
-                <p>名称: {{ scope.row.name }}</p>
+                <p>Id: {{ scope.row.id }}</p>
                 <p>PID: {{ scope.row.pid }}</p>
+                <p>名称: {{ scope.row.name }}</p>
                 <p>价格: {{ scope.row.price }}</p>
+                <p>描述: {{ scope.row.des }}</p>
                 <div slot="reference" class="name-wrapper">
                   <el-tag size="medium">{{ scope.row.name }}</el-tag>
                 </div>
