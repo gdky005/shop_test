@@ -163,7 +163,7 @@
         }
       },
       getShopData: function () {
-        var url = "/zkteam/Shop/jsonShow?pageCount=10";
+        var url = "/zkteam/Shop/jsonShow?pageCount=20";
         var that = this;
         that.loading2 = true;
 
