@@ -1,6 +1,6 @@
 <template>
 
-  <el-container tyle="height: 500px; border: 1px solid #eee">
+  <el-container style="height: 800px; border: 1px solid gray;">
     <el-header>
       <el-button type="text" class="fontStyle">Shop Test</el-button>
 
@@ -101,7 +101,7 @@
         }
       },
       getShopData: function () {
-        var url = "/zkteam/Shop/jsonShow";
+        var url = "/zkteam/Shop/jsonShow?pageCount=10";
         var that = this;
         that.loading2 = true;
 

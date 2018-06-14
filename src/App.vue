@@ -22,7 +22,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    background: #221D25;
+    background: slategrey;
     color: #2c3e50;
     margin: -8px;
   }
