@@ -66,7 +66,11 @@
           </el-table-column>
         </el-table>
 
-        <div v-show="!isMove" style="background: white; padding: 10px 50px 10px 10px;">
+        <div v-show="!isMove" style="background: white; padding: 10px 50px 10px 10px;"
+             v-loading="loading2"
+             element-loading-text="拼命加载中"
+             element-loading-spinner="el-icon-loading"
+             element-loading-background="rgba(0, 0, 0, 0.8)">
           <div style="margin: 20px;"></div>
 
           <el-form :model="shopInfo" status-icon :rules="rules" ref="shopInfo" label-width="120px">
@@ -134,11 +138,11 @@
         },
 
         shopInfo: {
-          id: '',
-          pid: '',
-          name: '',
-          price: '',
-          des: ''
+          id: '1',
+          pid: '11',
+          name: '11_name',
+          price: '101',
+          des: '描述'
         },
         shopData: [],
         movieData: [],
@@ -175,7 +179,6 @@
         var that = this;
         that.loading2 = true;
 
-
         this.$axios.get(url, {
           params: {
             id: shopInfo.id,
@@ -186,10 +189,29 @@
           }
         }).then(function (result) {
           console.log(result);
-          that.shopData = result.data.result;
+
           that.loading2 = false;
+          if (result.data.message === "ok") {
+            that.addDataSuccess();
+            return true;
+          }
+          that.addDataError();
+        }).catch(function (error) {
+          console.log(error);
+          that.addDataError();
         });
       },
+      addDataSuccess() {
+        this.$message({
+          message: '添加数据成功！',
+          type: 'success'
+        });
+      },
+      addDataError() {
+        this.$message.error('添加数据失败！');
+      },
+
+
       handleEdit(index, row) {
         console.log(index, row);
       },
