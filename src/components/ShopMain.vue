@@ -60,7 +60,7 @@
               <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row.name)">删除
+                @click="handleDelete(scope.$index, scope.row)">删除
               </el-button>
             </template>
           </el-table-column>
@@ -192,23 +192,50 @@
 
           that.loading2 = false;
           if (result.data.message === "ok") {
-            that.addDataSuccess();
+            that.addDataSuccess('添加数据成功！');
             return true;
           }
-          that.addDataError();
+          that.addDataError('添加数据失败！');
         }).catch(function (error) {
           console.log(error);
-          that.addDataError();
+          that.addDataError('添加数据失败！');
         });
       },
-      addDataSuccess() {
+
+
+      deleteButton: function (shopInfo) {
+        var url = "/zkteam/Shop/delete";
+        var that = this;
+        that.loading2 = true;
+
+        this.$axios.get(url, {
+          params: {
+            pid: shopInfo.pid
+          }
+        }).then(function (result) {
+          console.log(result);
+
+          that.loading2 = false;
+          if (result.data.message === "ok") {
+            that.addDataSuccess("删除数据成功！");
+            that.getShopData();
+            return true;
+          }
+          that.addDataError("删除数据失败！");
+        }).catch(function (error) {
+          console.log(error);
+          that.addDataError("删除数据失败！");
+        });
+      },
+
+      addDataSuccess(msg) {
         this.$message({
-          message: '添加数据成功！',
+          message: msg,
           type: 'success'
         });
       },
-      addDataError() {
-        this.$message.error('添加数据失败！');
+      addDataError(msg) {
+        this.$message.error(msg);
       },
 
 
@@ -227,12 +254,28 @@
         });
       },
 
+      confirmItemInfo(shopInfo) {
+        this.$confirm('是否删除数据?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.deleteButton(shopInfo);
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          });
+        });
+      },
+
 
       handleEdit(index, row) {
         console.log(index, row);
       },
       handleDelete(index, row) {
         console.log(index, row);
+        this.confirmItemInfo(row);
       }
     }
   }
