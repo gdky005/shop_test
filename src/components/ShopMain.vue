@@ -17,10 +17,10 @@
         text-color="#fff"
         active-text-color="#E6A23C">
         <el-menu-item index="1">Shop</el-menu-item>
-        <el-menu-item index="2">未知数据</el-menu-item>
+        <el-menu-item index="2">增加数据</el-menu-item>
       </el-menu>
 
-      <div id="newRow">
+      <div id="newRow" v-show="true">
         <el-table
           v-show="isMove"
           v-loading="loading2"
@@ -66,8 +66,28 @@
           </el-table-column>
         </el-table>
 
-        <div v-show="!isMove">
-          测试页面！！！
+        <div v-show="!isMove" style="background: white; padding: 10px 50px 10px 10px;">
+          <div style="margin: 20px;"></div>
+
+          <el-form :model="shopInfo" status-icon :rules="rules" ref="shopInfo" label-width="120px">
+            <el-form-item label="默认 Id:" prop="id">
+              <el-input v-model.number="shopInfo.id" ></el-input>
+            </el-form-item>
+            <el-form-item label="商品名称 Pid:" prop="pid">
+              <el-input v-model.number="shopInfo.pid" ></el-input>
+            </el-form-item>
+            <el-form-item label="商品名称:">
+              <el-input v-model="shopInfo.name" ></el-input>
+            </el-form-item>
+            <el-form-item label="商品价格:" prop="price">
+              <el-input v-model.number="shopInfo.price"></el-input>
+            </el-form-item>
+            <el-form-item label="商品描述:">
+              <el-input v-model="shopInfo.des"></el-input>
+            </el-form-item>
+          </el-form>
+
+          <el-button type="primary" @click="submitButton(shopInfo)"> 提交按钮</el-button>
         </div>
       </div>
     </el-main>
@@ -82,7 +102,44 @@
     data() {
       this.getShopData();
 
+      var checkNumber = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('不能为空'));
+        }
+        setTimeout(() => {
+          if (!/^[0-9]+$/.test(value)) {
+            callback(new Error('请输入数字值'));
+          } else {
+            if (value < 0) {
+              callback(new Error('必须大于0'));
+            } else {
+              callback();
+            }
+          }
+        }, 1000);
+      };
+
+
       return {
+        rules: {
+          id: [
+            { validator: checkNumber}
+          ],
+          pid: [
+            { validator: checkNumber}
+          ],
+          price: [
+            { validator: checkNumber, trigger: 'blur'}
+          ]
+        },
+
+        shopInfo: {
+          id: '',
+          pid: '',
+          name: '',
+          price: '',
+          des: ''
+        },
         shopData: [],
         movieData: [],
         activeIndex: '1',
@@ -92,6 +149,7 @@
       };
     },
     methods: {
+
       handleSelect(key, keyPath) {
         if (key == 1) {
           this.isMove = true;
@@ -107,6 +165,26 @@
 
 
         this.$axios.get(url).then(function (result) {
+          console.log(result);
+          that.shopData = result.data.result;
+          that.loading2 = false;
+        });
+      },
+      submitButton: function (shopInfo) {
+        var url = "/zkteam/Shop/add";
+        var that = this;
+        that.loading2 = true;
+
+
+        this.$axios.get(url, {
+          params: {
+            id: shopInfo.id,
+            pid: shopInfo.pid,
+            name: shopInfo.name,
+            price: shopInfo.price,
+            des: shopInfo.des
+          }
+        }).then(function (result) {
           console.log(result);
           that.shopData = result.data.result;
           that.loading2 = false;
