@@ -244,10 +244,8 @@
         if (tab.name === this.GLOBAL.tabs[0]) {
           this.getShopData();
         }  else if (tab.name === this.GLOBAL.tabs[1]) {
-
           this.shopInfo = {};
-
-        } else if (tab.na === this.GLOBAL.tabs[2]) {
+        } else if (tab.name === this.GLOBAL.tabs[2]) {
           this.searchInfo = {};
         }
 
