@@ -109,11 +109,11 @@
                 <el-input
                   placeholder="请输入 pid 搜索"
                   prefix-icon="el-icon-search"
-                  v-model="input21">
+                  v-model="searchPid">
                 </el-input>
               </el-col>
               <el-col :span="3">
-                <el-button type="primary" icon="el-icon-search">搜索</el-button>
+                <el-button type="primary" icon="el-icon-search" @click="searchShopInfo" :loading="false">搜索</el-button>
               </el-col>
             </el-row>
 
@@ -128,11 +128,11 @@
                  element-loading-spinner="el-icon-loading"
                  element-loading-background="rgba(0, 0, 0, 0.8)">
               <div style="margin: 20px;"></div>
-              <p>Id: {{ shopInfo.id }}</p>
-              <p>PID: {{ shopInfo.pid }}</p>
-              <p>名称: {{ shopInfo.name }}</p>
-              <p>价格: {{ shopInfo.price }}</p>
-              <p>描述: {{ shopInfo.des }}</p>
+              <p>Id: {{ searchInfo.id }}</p>
+              <p>PID: {{ searchInfo.pid }}</p>
+              <p>名称: {{ searchInfo.name }}</p>
+              <p>价格: {{ searchInfo.price }}</p>
+              <p>描述: {{ searchInfo.des }}</p>
             </div>
           </div>
 
@@ -155,6 +155,7 @@
 
     name: "ShopMain",
     data() {
+      this.searchLoading = 'false';
       this.getShopData();
 
       var checkNumber = (rule, value, callback) => {
@@ -180,6 +181,9 @@
         activeName: this.GLOBAL.tabs[2],
         activeIndex: '1',
 
+        searchPid: '',
+        searchLoading: 'false',
+
         isMove: true,
         loading2: false,
 
@@ -192,6 +196,13 @@
           name: '11_name',
           price: '101',
           des: '描述'
+        },
+        searchInfo: {
+          id: '',
+          pid: '',
+          name: '',
+          price: '',
+          des: ''
         },
 
         rules: {
@@ -313,6 +324,37 @@
           }
         }).catch(function (error) {
           console.log(error);
+        });
+      },
+
+      searchShopInfo: function () {
+        var url = "/zkteam/Shop/query";
+        var that = this;
+        this.searchLoading = 'true';
+
+        this.$axios.get(url, {
+          params: {
+            pid: this.searchPid
+          }
+        }).then(function (result) {
+          console.log(result);
+          that.searchLoading = 'false';
+
+          if (result.data.message === "ok") {
+            that.searchInfo = result.data.result;
+
+            if (that.searchInfo !== '') {
+              that.addDataSuccess("搜索成功");
+            } else {
+              that.addDataError("搜索数据为空");
+            }
+            return true;
+          }
+          that.addDataError("搜索出现异常：" + result.data.result);
+        }).catch(function (error) {
+          console.log(error);
+          that.searchLoading = 'false';
+          that.addDataError("搜索出现异常：" + error);
         });
       },
 
