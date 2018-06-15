@@ -119,29 +119,49 @@
 
 
 
+            <!--<el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">-->
+              <!--<el-form-item label="名称">-->
+                <!--<el-input v-model="formLabelAlign.name"></el-input>-->
+              <!--</el-form-item>-->
+              <!--<el-form-item label="活动区域">-->
+                <!--<el-input v-model="formLabelAlign.region"></el-input>-->
+              <!--</el-form-item>-->
+              <!--<el-form-item label="活动形式">-->
+                <!--<el-input v-model="formLabelAlign.type"></el-input>-->
+              <!--</el-form-item>-->
+            <!--</el-form>-->
 
 
 
-            <div style="background: white; padding: 10px 50px 10px 10px;"
-                 v-loading="loading2"
-                 element-loading-text="拼命加载中"
-                 element-loading-spinner="el-icon-loading"
-                 element-loading-background="rgba(0, 0, 0, 0.8)">
-              <div style="margin: 20px;"></div>
-              <p>Id: {{ searchInfo.id }}</p>
-              <p>PID: {{ searchInfo.pid }}</p>
-              <p>名称: {{ searchInfo.name }}</p>
-              <p>价格: {{ searchInfo.price }}</p>
-              <p>描述: {{ searchInfo.des }}</p>
+            <div style="margin: 20px;"></div>
+            <div style="background: #F5F7FA; padding: 20px; border: 2px solid #F5F7FA; text-align: left">
+
+              <el-form :model="searchInfo" style="padding: 10px;" :label-position="left">
+                <el-form-item label="Id  : ">
+                  <el-text class="fontStyle">{{ searchInfo.id }}</el-text>
+                </el-form-item>
+
+                <el-form-item label="PID: ">
+                  <el-text class="fontStyle">{{ searchInfo.pid }}</el-text>
+                </el-form-item>
+
+                <el-form-item label="名称: ">
+                  <el-text class="fontStyle">{{ searchInfo.name }}</el-text>
+                </el-form-item>
+
+                <el-form-item label="价格: ">
+                  <el-text class="fontStyle">{{ searchInfo.price }}</el-text>
+                </el-form-item>
+
+                <el-form-item label="描述: ">
+                  <el-text class="fontStyle">{{ searchInfo.des }}</el-text>
+                </el-form-item>
+              </el-form>
             </div>
+
+
+
           </div>
-
-
-
-          <!--<div>-->
-            <!---->
-
-
         </el-tab-pane>
       </el-tabs>
 
@@ -225,7 +245,10 @@
           this.getShopData();
         }  else if (tab.name === this.GLOBAL.tabs[1]) {
 
-          this.shopInfo = {}
+          this.shopInfo = {};
+
+        } else if (tab.na === this.GLOBAL.tabs[2]) {
+          this.searchInfo = {};
         }
 
       },
@@ -419,30 +442,4 @@
     font-size: 20px;
   }
 
-  .el-row {
-    margin-bottom: 20px;
-  &:last-child {
-     margin-bottom: 0;
-   }
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
 </style>
