@@ -113,7 +113,7 @@
                 </el-input>
               </el-col>
               <el-col :span="3">
-                <el-button type="primary" icon="el-icon-search" @click="searchShopInfo" :loading="false">搜索</el-button>
+                <el-button type="primary" icon="el-icon-search" @click="searchShopInfo" :loading="searchLoading">搜索</el-button>
               </el-col>
             </el-row>
 
@@ -155,7 +155,6 @@
 
     name: "ShopMain",
     data() {
-      this.searchLoading = 'false';
       this.getShopData();
 
       var checkNumber = (rule, value, callback) => {
@@ -182,7 +181,7 @@
         activeIndex: '1',
 
         searchPid: '',
-        searchLoading: 'false',
+        searchLoading: false,
 
         isMove: true,
         loading2: false,
@@ -330,7 +329,7 @@
       searchShopInfo: function () {
         var url = "/zkteam/Shop/query";
         var that = this;
-        this.searchLoading = 'true';
+        this.searchLoading = true;
 
         this.$axios.get(url, {
           params: {
@@ -338,7 +337,7 @@
           }
         }).then(function (result) {
           console.log(result);
-          that.searchLoading = 'false';
+          that.searchLoading = false;
 
           if (result.data.message === "ok") {
             that.searchInfo = result.data.result;
@@ -353,7 +352,7 @@
           that.addDataError("搜索出现异常：" + result.data.result);
         }).catch(function (error) {
           console.log(error);
-          that.searchLoading = 'false';
+          that.searchLoading = false;
           that.addDataError("搜索出现异常：" + error);
         });
       },
